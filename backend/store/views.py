@@ -6,13 +6,17 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
+from store.filters import ProductFilter
 from .models import Collection, Product, OrderItem, Review
 from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer
+from rest_framework.filters import DjangoFilterBackend
 
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ProductFilter
 
     def get_serializer_context(self):
         return {'request': self.request}
